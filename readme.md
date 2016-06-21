@@ -133,5 +133,12 @@ docker exec nginx bash -c 'cd /opt/provision/ && chef-client -z -j /opt/provisio
 This will copy cookbooks and config.json to the container and then run chef-client from inside the container.
 
 
+Workflow:
+* it will copy all cookbooks from `cookbooks` directory to the container
+If you need more cookbooks, copy them as well.
+
+* it runs `chef-client -z` in local mode from inside the container.
+
+
 # Build Docker image with Chef
 
