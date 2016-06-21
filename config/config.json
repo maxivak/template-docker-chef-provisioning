@@ -1,0 +1,18 @@
+{
+  "base":{
+    "dir_data": "/disk3/data/containers/nginx",
+    "base_image": {
+      "name": "nginx",
+      "repository": "nginx",
+      "tag": "1.10"
+    }
+  },
+  "docker": {
+    "ports": ["8980:80"],
+    "volumes": ["/var/www/html", "/var/log/nginx"]
+  },
+  "nginx":{
+    "sitename": "site1.com"
+  }
+
+}
