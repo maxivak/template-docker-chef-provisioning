@@ -84,7 +84,13 @@ chef gem install docker-api
 ```
 /path/to/chef-repo
     |_ cookbooks
-    ...
+       |__ cookbook1
+           |__ recipes
+               |__ default.rb
+               |__ recipe2.rb
+           |__ templates    
+    ...|__ cookbook2
+          |__ ...
     
 ```
 
