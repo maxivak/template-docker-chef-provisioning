@@ -11,19 +11,26 @@ We want to
 
 ## Solution
 
-Workstation:
-* install ChefDK
+Workflow:
+* build image using Chef provisioning or use existing image
+* create and run Docker container running 'chef-client -z' on Workstation
+* update running container with Chef 
 
+
+Workstation:
+* has ChefDK installed
+
+
+Settings:
+* `config/config.json` - attributes used to create and provision container
+* `container.rb` - settings for Docker container
 
 
 Create container:
-
 ```
 chef-client -z -j config/config.json container.rb
 ```
 
-edit settings in `config/config.json` and Docker settings in `container.rb`.
- 
  
 Provision container:
 
@@ -36,9 +43,8 @@ docker cp ../config/config.json nginx:/opt/gex/config/
 docker exec nginx bash -c 'cd /opt/gex/ && chef-client -z -j /opt/provision/config/config.json -o recipe[nginx::provision]'
 ```
  
-
-
-# Setup workstation
+ 
+## Workstation:
 
 * install ChefDK
 
@@ -66,9 +72,11 @@ cookbook_path [ File.join(root, '../cookbooks'), '/another/path/to/your/chef-rep
 
 
 
-# Create a new container
+# Create and run a new container
 
 * edit `config/config.json` with settings for the container
+* edit `container.rb` for additional settings for running Docker container
+
 
 * run on Workstation to create a container named 'nginx':
 ```
@@ -80,7 +88,8 @@ chef-client -z -j config/config.json container.rb
 {
 
   "base":{
-    "dir_data": "/disk3/data/containers/nginx"  # base directory for shared volumes 
+    # base directory for shared volumes 
+    "dir_data": "/disk3/data/containers/nginx"  
   },
   
   # docker options
@@ -98,11 +107,8 @@ chef-client -z -j config/config.json container.rb
 }
 ```
 
-
-* edit container.rb and change options for Docker like ports, volumes, etc
-
-
 * This example creates container for Nginx from base image 'nginx:1.10'.
+
 
 * If you want to build your own Docker image with Chef - read below "Build Docker image with Chef".
 
