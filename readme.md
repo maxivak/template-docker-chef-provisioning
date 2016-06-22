@@ -10,6 +10,7 @@ We want to
 
 
 ## Solution
+We will use Chef provisioning to create a Docker container.
 
 Workflow:
 * build image using Chef provisioning or use existing image
@@ -42,21 +43,52 @@ docker cp ../cookbooks nginx:/opt/provision/
 docker cp ../config/config.json nginx:/opt/gex/config/
 docker exec nginx bash -c 'cd /opt/gex/ && chef-client -z -j /opt/provision/config/config.json -o recipe[nginx::provision]'
 ```
- 
+
+
+* Read more about provisioning Docker container with chef-client - https://gist.github.com/maxivak/167e46b3570a834231be7bbeefe9243a 
  
 ## Workstation:
 
 * install ChefDK
 
+
 * install gems for Chef provisioning
 ```
 chef gem install chef-provisioning
 chef gem install chef-provisioning-docker
+
 chef gem install docker
 chef gem install docker-api
 ```
 
-* edit `.chef/knife.rb`
+* Setup workstation
+
+* It assumes we have chef-repo on the workstation. This chef-repo contains common cookbooks.
+
+* Also we can have custom cookbooks.
+
+* Directory structure
+
+```
+/path/to/project/
+    |__ .chef/ - directory with settings for knife
+        |__ knife.rb - settings for knife
+    |__ cookbooks/ - directory with cookbooks for the machine
+    |_  container.rb
+    |_ destroy.rb
+    
+```
+
+* chef-repo - directory with cookbooks somewhere on the workstation
+
+```
+/path/to/chef-repo
+    |_ cookbooks
+    ...
+    
+```
+
+* edit `./chef/knife.rb`:
 
 ```
 log_level                :info
@@ -64,11 +96,11 @@ log_level                :info
 root = File.absolute_path(File.dirname(__FILE__))
 current_dir = File.dirname(__FILE__)
 
-
 # specify path to your cookbooks
 cookbook_path [ File.join(root, '../cookbooks'), '/another/path/to/your/chef-repo/cookbooks' ]
-
 ```
+
+include paths to cookbooks from chef-repo and to cookbooks in our project.
 
 
 
