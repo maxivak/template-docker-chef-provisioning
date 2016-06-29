@@ -3,7 +3,7 @@ log_level                :info
 root = File.absolute_path(File.dirname(__FILE__))
 current_dir = File.dirname(__FILE__)
 
-#node_name                "provisioner"
+node_name                "my-server"
 #client_key               "#{current_dir}/dummy.pem"
 #validation_client_name   "validator"
 
