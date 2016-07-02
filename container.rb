@@ -27,8 +27,9 @@ machine 'nginx' do
   #chef_environment chef_env
 
   # attributes
-  attribute 'base', node['base']
-  attribute 'nginx', node['nginx']
+  node.keys.each do |k|
+    attribute k, node[k]
+  end
 
 
   machine_options docker_options: {
